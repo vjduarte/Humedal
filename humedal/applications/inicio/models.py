@@ -1,12 +1,16 @@
 from django.db import models
 
 # Create your models here.
-
 class Humedal(models.Model):
     nombre=models.CharField('Nombre Humedal',max_length=150,null=False)
     localizacion=models.CharField('Localización',max_length=200,null=False)
     Descripcion=models.TextField("Descripción",null=False)
-    #foto=models.ImageField()
+    foto=models.ImageField(upload_to='images/',null=True)
+
+    class Meta:
+        verbose_name='Humedal Urbano'
+        verbose_name_plural="Humedales"
+        ordering=['-nombre','localizacion']
 
     def __str__(self):
         return str(self.id)+'-'+self.nombre
@@ -21,5 +25,14 @@ class Evento(models.Model):
 
     def __str__(self):
         return str(self.id)+'-'+self.nombre_evento
+    
+class especies(models.Model):
+    tipo=models.CharField('Especie',max_length=150,null=False)
+    num_especie=models.IntegerField("Número de especies", null=False)
+    humedal_or=models.ForeignKey(Humedal,on_delete=models.CASCADE)
+    def __str__(self):
+        return str(self.id)+'-'+self.tipo
+    
+
 
   
